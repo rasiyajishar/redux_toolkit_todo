@@ -1,23 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
 
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addTask, editTask, deleteTask } from "./Pages/todoSlice";
+import './Pages/todo.css'
 function App() {
+  const dispatch = useDispatch();
+  const tasks = useSelector((state) => state.todos);
+  const [newTask, setNewTask] = useState("");
+  
+
+  const handleAddTask = () => {
+    if (newTask.trim() !== "") {
+
+
+      
+      dispatch(addTask(newTask));
+      setNewTask("");
+    }
+  };
+
+  const handleEditTask = (index) => {
+    const updatedTask = prompt("Edit Task:", tasks[index]);
+    if (updatedTask !== null) {
+      dispatch(editTask({ index, updatedTask }));
+    }
+  };
+
+  const handleDeleteTask = (index) => {
+    if (window.confirm("Are you sure you want to delete this task?")) {
+      dispatch(deleteTask(index));
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1 className="todohead">Todo List</h1>
+      <div className="task-input">
+        <input
+          type="text"
+          placeholder="Enter a new task"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+        />
+        <button onClick={handleAddTask}>Add Task</button>
+      </div>
+      <ul className="task-list">
+        {/* {[...tasks].reverse().map((task, index) => ( */}
+        <ul className="task-list">
+  {tasks.map((task, index) => (
+    <li key={index} className="task-item"> {/* Removed extra '>' before className */}
+      <span>{task}</span>
+      <button onClick={() => handleEditTask(index)}>Edit</button>
+      <button onClick={() => handleDeleteTask(index)}>Delete</button>
+    </li>
+  ))}
+</ul>
+
+      </ul>
     </div>
   );
 }

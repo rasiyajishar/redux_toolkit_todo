@@ -1,0 +1,70 @@
+.App {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    height: 600px;
+    width: 500px;
+    background-color: rgb(62, 64, 67);
+    margin-left: 250px;
+  }
+
+ .todohead{
+/* margin-left:60px ; */
+color: #ccc;
+ }
+  
+  h1 {
+    color: #333;
+  }
+  
+  .task-input {
+    margin-bottom: 20px;
+
+  }
+  
+  input[type="text"] {
+    padding: 7px;
+    width: 40%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    /* margin-left: 260px; */
+  }
+  
+  button {
+    padding: 5px 10px;
+    background-color: #303133;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #2908cc;
+  }
+  
+  .task-list {
+    list-style: none;
+    padding: 0;
+     
+  }
+  
+  .task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+     margin: 5px 0; 
+    width: 50%;
+     margin-left: 110px;
+    color: #fff;
+  
+  }
+  
+  .task-item span {
+    flex-grow: 1;
+  }
+  
