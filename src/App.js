@@ -1,36 +1,113 @@
 
-import React, { useState } from "react";
+// import React, { useState } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { addTask, editTask, deleteTask } from "./Pages/todoSlice";
+// import './Pages/todo.css'
+// function App() {
+//   const dispatch = useDispatch();
+//   const tasks = useSelector((state) => state.todos);
+//   const [newTask, setNewTask] = useState("");
+  
+
+//   const handleAddTask = () => {
+//     if (newTask.trim() !== "") {
+
+
+      
+//       dispatch(addTask(newTask));
+//       setNewTask("");
+//     }
+//   };
+
+//   const handleEditTask = (index) => {
+//     const updatedTask = prompt("Edit Task:", tasks[index]);
+//     if (updatedTask !== null) {
+//       dispatch(editTask({ index, updatedTask }));
+//     }
+//   };
+
+//   const handleDeleteTask = (index) => {
+//     if (window.confirm("Are you sure you want to delete this task?")) {
+//       dispatch(deleteTask(index));
+//     }
+//   };
+
+//   return (
+//     <div className="App">
+//       <h1 className="todohead">Todo List</h1>
+//       <div className="task-input">
+//         <input
+//           type="text"
+//           placeholder="Enter a new task"
+//           value={newTask}
+//           onChange={(e) => setNewTask(e.target.value)}
+//         />
+//         <button onClick={handleAddTask}>Add Task</button>
+//       </div>
+//       <ul className="task-list">
+//         {/* {[...tasks].reverse().map((task, index) => ( */}
+//         <ul className="task-list">
+//   {tasks.map((task, index) => (
+//     <li key={index} className="task-item"> {/* Removed extra '>' before className */}
+//       <span>{task}</span>
+//       <button onClick={() => handleEditTask(index)}>Edit</button>
+//       <button onClick={() => handleDeleteTask(index)}>Delete</button>
+//     </li>
+//   ))}
+// </ul>
+
+//       </ul>
+//     </div>
+//   );
+
+
+
+
+
+// }
+
+// export default App;
+
+
+
+
+import React, { useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTask, editTask, deleteTask } from "./Pages/todoSlice";
 import './Pages/todo.css'
+
 function App() {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.todos);
   const [newTask, setNewTask] = useState("");
-  
 
   const handleAddTask = () => {
     if (newTask.trim() !== "") {
-
-
-      
       dispatch(addTask(newTask));
       setNewTask("");
     }
   };
 
-  const handleEditTask = (index) => {
+  const handleEditTask = useCallback((index) => {
     const updatedTask = prompt("Edit Task:", tasks[index]);
     if (updatedTask !== null) {
       dispatch(editTask({ index, updatedTask }));
     }
-  };
+  }, [dispatch, tasks]);
 
-  const handleDeleteTask = (index) => {
+  const handleDeleteTask = useCallback((index) => {
     if (window.confirm("Are you sure you want to delete this task?")) {
       dispatch(deleteTask(index));
     }
-  };
+  }, [dispatch]);
+
+  const handleTaskButtonClick = useCallback((index, action) => {
+    if (action === "edit") {
+      handleEditTask(index);
+    } else if (action === "delete") {
+      handleDeleteTask(index);
+    }
+  }, [handleEditTask, handleDeleteTask]);
 
   return (
     <div className="App">
@@ -45,17 +122,13 @@ function App() {
         <button onClick={handleAddTask}>Add Task</button>
       </div>
       <ul className="task-list">
-        {/* {[...tasks].reverse().map((task, index) => ( */}
-        <ul className="task-list">
-  {tasks.map((task, index) => (
-    <li key={index} className="task-item"> {/* Removed extra '>' before className */}
-      <span>{task}</span>
-      <button onClick={() => handleEditTask(index)}>Edit</button>
-      <button onClick={() => handleDeleteTask(index)}>Delete</button>
-    </li>
-  ))}
-</ul>
-
+        {tasks.map((task, index) => (
+          <li key={index} className="task-item">
+            <span>{task}</span>
+            <button onClick={() => handleTaskButtonClick(index, "edit")}>Edit</button>
+            <button onClick={() => handleTaskButtonClick(index, "delete")}>Delete</button>
+          </li>
+        ))}
       </ul>
     </div>
   );
